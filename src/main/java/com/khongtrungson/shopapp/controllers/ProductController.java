@@ -30,6 +30,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -59,10 +60,10 @@ public class ProductController {
                 .build();
     }
 
-    @Operation(summary = "upload list images of product id")
+    @Operation(summary = "upload list images of product has id")
     @PostMapping(value = "/upload/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseData<String> uploadImages(
-            @RequestPart(name = "files") List<MultipartFile> files,
+            @RequestPart(name = "files") List<MultipartFile> files ,
             @PathVariable(name = "id") @Positive Long id
     ) throws IOException {
         productService.createProductImages(id,files);

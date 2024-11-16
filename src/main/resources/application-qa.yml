@@ -1,4 +1,6 @@
 spring:
+  config:
+    import:
   datasource:
     url: jdbc:h2:mem:mydb
     username: sa
@@ -6,9 +8,14 @@ spring:
     driverClassName: org.h2.Driver
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
-#    show-sql: true
+    show-sql: true
 key:
   secretKey: "jxgEQeXHuPq8VdbyYFNkANdudQ53YUn4"
   refreshKey: "7BF825051B8D56922F3850F1077F2560FAAFC0239E116F4E4967A5E540D22E9CD4C23EEF970F98D0E27846A90981B8D5C8B83A7652BA421A4862365D2F359CB0"
+logging:
+  level:
+    org:
+      springframework:
+        security: trace
 
 

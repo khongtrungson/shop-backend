@@ -19,6 +19,8 @@ public class User {
     private Long id;
     private String fullName;
     private String phoneNumber;
+    private String email;
+    private String type;
     private String address;
     private String password;
     private boolean isActive;

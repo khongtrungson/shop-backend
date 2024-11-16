@@ -104,6 +104,7 @@ public class ProductService implements IProductService {
 
 
     @Override
+    @Transactional
     public boolean createProductImages(Long productId, List<MultipartFile> files) throws DataNotFoundException, IOException {
         Product product = productRepository.findById(productId).orElseThrow(()->new DataNotFoundException("product is not exist"));
         // tồn tại product

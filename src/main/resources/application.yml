@@ -3,3 +3,11 @@ spring:
     name: shopapp
   profiles:
     active: qa
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 805080172478-j3u7ok16ks5jan233hvd6b76bks1325p.apps.googleusercontent.com
+            client-secret: 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

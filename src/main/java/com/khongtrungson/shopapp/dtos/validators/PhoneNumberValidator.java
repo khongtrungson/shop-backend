@@ -6,10 +6,6 @@ import jakarta.validation.ConstraintValidatorContext;
 import java.lang.annotation.Annotation;
 
 public class PhoneNumberValidator implements ConstraintValidator<PhoneNumber,String>{
-    @Override
-    public void initialize(PhoneNumber phoneNumber) {
-        ConstraintValidator.super.initialize(phoneNumber);
-    }
 
     @Override
     public boolean isValid(String phoneNo, ConstraintValidatorContext constraintValidatorContext) {

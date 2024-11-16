@@ -5,7 +5,9 @@ import com.khongtrungson.shopapp.config.CustomUserDetailService;
 import com.khongtrungson.shopapp.dtos.requests.LoginInfo;
 import com.khongtrungson.shopapp.dtos.requests.RefreshToken;
 import com.khongtrungson.shopapp.dtos.responses.TokenResponse;
+import com.khongtrungson.shopapp.entities.User;
 import com.khongtrungson.shopapp.exceptions.InvalidParamException;
+import com.khongtrungson.shopapp.repositories.UserRepository;
 import com.khongtrungson.shopapp.services.IAuthService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -18,6 +20,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
@@ -30,7 +34,7 @@ import java.util.stream.Collectors;
 @Profile("!prod")
 public class AuthService implements IAuthService {
     private final AuthenticationManager manager;
-    private final CustomUserDetailService userDetailService;
+    private final UserRepository userRepository;
     @Value("${key.secretKey}")
     private String key ;
     @Value("${key.refreshKey}")
@@ -93,5 +97,24 @@ public class AuthService implements IAuthService {
                 .setExpiration(new Date((new Date()).getTime() + 100000))
                 .signWith(secretKey).compact();
         return new TokenResponse(jwt,refreshToken.getRefreshToken());
+    }
+
+    @Override
+    public TokenResponse socialLogin(OAuth2AuthenticationToken token) {
+        OidcUser principal = (OidcUser) token.getPrincipal();
+        // principal is not exist, when it's email and type differ with user that retrieved from database
+
+        User user = userRepository.findUserByEmail(principal.getEmail());
+
+        if(user == null
+                || !(user.getEmail().equals(principal.getEmail()) && user.getType().equals(token.getAuthorizedClientRegistrationId()))) {
+            // the user is not exist go into this block
+
+            // create the user
+            User newUser = new User();
+            userRepository.save(newUser);
+        }
+        // generate token
+        return null;
     }
 }

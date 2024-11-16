@@ -10,6 +10,6 @@ public class TestController {
     @GetMapping
     public String test(){
         String name = "khong trung son";
-        return "xin chao ${name}";
+        return "xin chao ";
     }
 }
